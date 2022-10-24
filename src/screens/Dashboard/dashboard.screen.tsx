@@ -1,14 +1,11 @@
-import {
-    Container,
-    Title
-} from './dashboard.styles';
+import { Container, Title } from './dashboard.styles'
 
 function Dashboard() {
-    return (
-        <Container>
-            <Title>Dashboard</Title>
-        </Container>
-    )
+  return (
+    <Container>
+      <Title>Dashboard</Title>
+    </Container>
+  )
 }
 
-export default Dashboard;
+export default Dashboard

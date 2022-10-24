@@ -6,7 +6,7 @@ NavigationBar.setPositionAsync("absolute");
 NavigationBar.setVisibilityAsync("hidden");
 NavigationBar.setBehaviorAsync("inset-swipe");
 NavigationBar.setBackgroundColorAsync("#00000080"); // `rgba(0,0,0,0.5)`
-setStatusBarHidden(true, "none");
+// setStatusBarHidden(true, "none");
 
 export function useStickyImmersiveReset() {
     const visibility = NavigationBar.useVisibility();
