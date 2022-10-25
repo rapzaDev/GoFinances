@@ -1,6 +1,7 @@
 import styled from 'styled-components/native'
 import { Feather } from '@expo/vector-icons'
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
+import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 
 export const Container = styled.View`
   flex: 1;
@@ -16,7 +17,7 @@ export const Header = styled.View`
   background-color: ${({ theme }) => theme.colors.primary};
 
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 `
 
@@ -24,7 +25,10 @@ export const Header = styled.View`
 
 export const UserWrapper = styled.View`
   width: 100%;
+
   padding: 0 24px;
+  margin-top: ${getStatusBarHeight() + RFValue(28)}px;
+
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -73,4 +77,9 @@ export const CardsList = styled.ScrollView.attrs({
   horizontal: true,
   showsHorizontalScrollIndicator: false,
   contentContainerStyle: { paddingHorizontal: 24 },
-})``
+})`
+  width: 100%;
+
+  position: absolute;
+  margin-top: ${RFPercentage(20)}px;
+`
