@@ -1,3 +1,5 @@
+import HighlightCard from '../../components/HighlightCard/highlightCard.component'
+
 import {
   Container,
   Header,
@@ -8,7 +10,8 @@ import {
   UserHello,
   UserName,
   Icon,
-} from './dashboard.styles'
+  CardsList,
+} from './dashboard.style'
 
 function Dashboard() {
   return (
@@ -31,6 +34,12 @@ function Dashboard() {
           <Icon name="power" />
         </UserWrapper>
       </Header>
+
+      <CardsList>
+        <HighlightCard />
+        <HighlightCard />
+        <HighlightCard />
+      </CardsList>
     </Container>
   )
 }
