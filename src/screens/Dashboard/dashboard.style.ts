@@ -2,6 +2,7 @@ import styled from 'styled-components/native'
 import { Feather } from '@expo/vector-icons'
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
+import { DataTransactionCard } from '../../components/TransactionCard/transactionCard.component'
 
 export const Container = styled.View`
   flex: 1;
@@ -86,7 +87,7 @@ export const CardsList = styled.ScrollView.attrs({
 
 // TRANSAÇOES
 
-export const Transactions = styled.View`
+export const TransactionsWrapper = styled.View`
   flex: 1;
 
   padding: 0 24px;
@@ -99,3 +100,5 @@ export const TransactionsTitle = styled.Text`
 
   margin-bottom: ${RFValue(16)}px;
 `
+
+export const ListTransactions = styled.FlatList<DataTransactionCard>``

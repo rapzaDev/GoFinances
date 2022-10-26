@@ -9,19 +9,32 @@ import {
   Date,
 } from './transactionCard.style'
 
-function TransactionCard() {
+export type DataTransactionCard = {
+  id: string
+  type: 'entrada' | 'saida'
+  title: string
+  amount: string
+  category: string
+  date: string
+}
+
+interface ITransactionCard {
+  data: DataTransactionCard
+}
+
+function TransactionCard({ data }: ITransactionCard) {
   return (
     <Container>
-      <Title>Desenvolvimento de app</Title>
-      <Amount>R$ 12.000,00</Amount>
+      <Title>{data.title}</Title>
+      <Amount>{data.amount}</Amount>
 
       <Footer>
         <Category>
           <Icon name="dollar-sign" />
-          <CategoryName>Vendas</CategoryName>
+          <CategoryName>{data.category}</CategoryName>
         </Category>
 
-        <Date>25/10/2022</Date>
+        <Date>{data.date}</Date>
       </Footer>
     </Container>
   )

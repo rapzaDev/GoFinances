@@ -1,5 +1,7 @@
 import HighlightCard from '../../components/HighlightCard/highlightCard.component'
-import TransactionCard from '../../components/TransactionCard/transactionCard.component'
+import TransactionCard, {
+  DataTransactionCard,
+} from '../../components/TransactionCard/transactionCard.component'
 
 import {
   Container,
@@ -12,9 +14,12 @@ import {
   UserName,
   Icon,
   CardsList,
-  Transactions,
+  TransactionsWrapper,
   TransactionsTitle,
+  ListTransactions,
 } from './dashboard.style'
+
+import { data } from '../../utils/TransactionsData/transactionsData'
 
 function Dashboard() {
   return (
@@ -59,11 +64,18 @@ function Dashboard() {
         />
       </CardsList>
 
-      <Transactions>
+      <TransactionsWrapper>
         <TransactionsTitle>Listagem</TransactionsTitle>
 
-        <TransactionCard />
-      </Transactions>
+        <ListTransactions
+          data={data}
+          keyExtractor={(item: DataTransactionCard) => item.id}
+          renderItem={({ item }: { item: DataTransactionCard }) => (
+            <TransactionCard data={item} />
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+      </TransactionsWrapper>
     </Container>
   )
 }
