@@ -20,6 +20,7 @@ import {
 } from './dashboard.style'
 
 import { data } from '../../utils/TransactionsData/transactionsData'
+import { getBottomSpace } from 'react-native-iphone-x-helper'
 
 function Dashboard() {
   return (
@@ -74,6 +75,9 @@ function Dashboard() {
             <TransactionCard data={item} />
           )}
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: getBottomSpace(),
+          }}
         />
       </TransactionsWrapper>
     </Container>
