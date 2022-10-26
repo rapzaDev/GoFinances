@@ -6,7 +6,7 @@ export const data: DataTransactionCard[] = [
     type: 'entrada',
     title: 'Desenvolvimento de site',
     amount: 'R$ 12.000,00',
-    category: 'Development',
+    category: 'Programacao',
     date: '25/10/2022',
   },
   {
@@ -14,7 +14,7 @@ export const data: DataTransactionCard[] = [
     type: 'saida',
     title: 'Ração dos Gatos',
     amount: 'R$ 100,00',
-    category: 'Casa',
+    category: 'Gatos',
     date: '15/10/2022',
   },
   {
@@ -30,7 +30,7 @@ export const data: DataTransactionCard[] = [
     type: 'entrada',
     title: 'Salario Araras',
     amount: 'R$ 5.000,00',
-    category: 'Development',
+    category: 'Programacao',
     date: '02/10/2022',
   },
   {
