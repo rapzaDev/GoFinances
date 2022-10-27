@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
-import Dashboard from './src/screens/Dashboard/dashboard.screen'
+// import Dashboard from './src/screens/Dashboard/dashboard.screen'
 import { useStickyImmersiveReset } from './statusBar'
 import { ThemeProvider } from 'styled-components/native'
 import theme from './src/global/styles/theme'
@@ -14,6 +14,7 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins'
+import Register from './src/screens/Register/register.screen'
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync()
@@ -57,10 +58,11 @@ export default function App() {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <StatusBar style="dark" hidden={false} />
+      <StatusBar style="light" hidden={false} />
 
       <ThemeProvider theme={theme}>
-        <Dashboard />
+        {/* <Dashboard /> */}
+        <Register />
       </ThemeProvider>
     </View>
   )
