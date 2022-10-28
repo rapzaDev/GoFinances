@@ -1,6 +1,7 @@
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 import styled from 'styled-components/native'
+import { MaterialIcons } from '@expo/vector-icons'
 
 export const Container = styled.View`
   flex: 1;
@@ -43,6 +44,34 @@ export const TransactionsTypesWrapper = styled.View`
   width: 100%;
 
   margin-top: 8px;
+  margin-bottom: 16px;
+`
+
+export const SelectCategoryField = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  height: ${RFValue(56)}px;
+  width: 100%;
+
+  padding: 18px 16px;
+
+  background-color: ${({ theme }) => theme.colors.shape};
+
+  border-radius: 5px;
+`
+
+export const CategoryText = styled.Text`
+  color: ${({ theme }) => theme.colors.text};
+
+  font-family: ${({ theme }) => theme.fonts.regular};
+`
+
+export const Icon = styled(MaterialIcons)`
+  font-size: ${RFValue(22)}px;
+
+  color: ${({ theme }) => theme.colors.text};
 `
 
 export const RegisterButton = styled.TouchableOpacity`

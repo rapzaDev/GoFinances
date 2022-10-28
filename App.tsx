@@ -14,7 +14,8 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins'
-import Register from './src/screens/Register/register.screen'
+// import Register from './src/screens/Register/register.screen'
+import CategorySelect from './src/components/Form/CategorySelect/categorySelect.component'
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync()
@@ -62,7 +63,8 @@ export default function App() {
 
       <ThemeProvider theme={theme}>
         {/* <Dashboard /> */}
-        <Register />
+        {/* <Register /> */}
+        <CategorySelect />
       </ThemeProvider>
     </View>
   )

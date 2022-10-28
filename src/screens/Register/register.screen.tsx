@@ -13,6 +13,9 @@ import {
   Form,
   FormInputsWrapper,
   TransactionsTypesWrapper,
+  SelectCategoryField,
+  CategoryText,
+  Icon,
   RegisterButton,
   RegisterButtonTitle,
 } from './register.style'
@@ -51,6 +54,11 @@ function Register() {
               }}
             />
           </TransactionsTypesWrapper>
+
+          <SelectCategoryField>
+            <CategoryText>Categoria</CategoryText>
+            <Icon name="keyboard-arrow-down" />
+          </SelectCategoryField>
         </FormInputsWrapper>
 
         <RegisterButton>

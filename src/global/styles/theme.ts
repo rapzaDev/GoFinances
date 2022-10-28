@@ -18,6 +18,14 @@ export default {
     background: '#f0f2f5',
   },
 
+  color_icons: {
+    shopping_bag: '#5636d3',
+    coffee: '#ff872c',
+    dollar_sign: '#12a454',
+    heart: '#26195c',
+    book: '#9c001a',
+  },
+
   fonts: {
     regular: 'Poppins_400Regular',
     medium: 'Poppins_500Medium',
