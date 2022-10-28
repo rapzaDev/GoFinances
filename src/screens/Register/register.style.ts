@@ -27,9 +27,42 @@ export const Title = styled.Text`
 
 export const Form = styled.View`
   flex: 1;
+  justify-content: space-between;
+
   width: 100%;
 
   padding: 24px;
 
   background-color: ${({ theme }) => theme.colors.background};
+`
+
+export const FormInputsWrapper = styled.View``
+
+export const TransactionsTypesWrapper = styled.View`
+  flex-direction: row;
+  width: 100%;
+
+  margin-top: 8px;
+`
+
+export const RegisterButton = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+
+  height: ${RFValue(56)}px;
+  width: 100%;
+
+  padding: 16px 0;
+  margin-bottom: ${RFValue(24)}px;
+
+  border-radius: 5px;
+
+  background-color: ${({ theme }) => theme.colors.secondary};
+`
+
+export const RegisterButtonTitle = styled.Text`
+  font-size: ${RFValue(14)}px;
+  font-family: ${({ theme }) => theme.fonts.medium};
+
+  color: ${({ theme }) => theme.colors.shape};
 `
