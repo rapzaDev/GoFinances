@@ -1,7 +1,7 @@
 export type CategorySelectDataType = {
   key: number
   icon: 'shopping-bag' | 'coffee' | 'dollar-sign' | 'heart' | 'book'
-  category: 'Compras' | 'Alimentação' | 'Salário' | 'Lazer' | 'Estudos'
+  category: 'Compras' | 'Alimentação' | 'Salário' | 'Lazer' | 'Estudos' | ''
 }
 
 export const categorySelectData: CategorySelectDataType[] = [
