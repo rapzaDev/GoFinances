@@ -2,7 +2,7 @@
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { Feather } from '@expo/vector-icons'
-import { getIconColor } from './categorySelect.style.functions'
+import { getIconColor } from './functions/categorySelect.style.functions'
 
 type CategoryIsSelectedProps = {
   isSelected: boolean
