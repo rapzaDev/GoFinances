@@ -1,4 +1,6 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useState } from 'react'
+import { Modal } from 'react-native'
+import CategorySelect from '../../components/Form/CategorySelect/categorySelect.component'
 import Input from '../../components/Form/Input/input.component'
 import TransactionButtonType from '../../components/Form/TransactionTypeButton/transactionTypeButton.component'
 import {
@@ -22,6 +24,9 @@ import {
 
 function Register() {
   const [state, dispatch] = useReducer(buttonTypeReducer, initialState)
+  const [categoryModal, setCategoryModal] = useState<boolean>(false)
+  const [selectedCategoryValue, setSelectedCategoryValue] =
+    useState<string>('Categoria')
 
   return (
     <Container>
@@ -55,8 +60,8 @@ function Register() {
             />
           </TransactionsTypesWrapper>
 
-          <SelectCategoryField>
-            <CategoryText>Categoria</CategoryText>
+          <SelectCategoryField onPress={changeModalState}>
+            <CategoryText>{selectedCategoryValue}</CategoryText>
             <Icon name="keyboard-arrow-down" />
           </SelectCategoryField>
         </FormInputsWrapper>
@@ -65,8 +70,24 @@ function Register() {
           <RegisterButtonTitle>Cadastrar</RegisterButtonTitle>
         </RegisterButton>
       </Form>
+
+      <Modal visible={categoryModal}>
+        <CategorySelect
+          changeModalState={changeModalState}
+          registerSelectedCategory={registerSelectedCategory}
+        />
+      </Modal>
     </Container>
   )
+
+  function changeModalState() {
+    setCategoryModal((prev) => !prev)
+  }
+
+  function registerSelectedCategory(categorySelected: string) {
+    setSelectedCategoryValue(categorySelected)
+    changeModalState()
+  }
 }
 
 export default Register

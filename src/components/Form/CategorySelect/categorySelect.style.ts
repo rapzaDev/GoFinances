@@ -59,8 +59,6 @@ export const FakeFinishButton = styled.View<CategoryIsSelectedProps>`
   height: ${RFValue(56)}px;
   width: 100%;
 
-  margin-bottom: ${RFValue(24)}px;
-
   border-radius: 5px;
 
   background-color: ${({ theme }) => theme.colors.text};
@@ -72,8 +70,6 @@ export const FinishButton = styled.TouchableOpacity<CategoryIsSelectedProps>`
 
   height: ${RFValue(56)}px;
   width: 100%;
-
-  margin-bottom: ${RFValue(24)}px;
 
   border-radius: 5px;
 

@@ -47,7 +47,7 @@ export const TransactionsTypesWrapper = styled.View`
   margin-bottom: 16px;
 `
 
-export const SelectCategoryField = styled.View`
+export const SelectCategoryField = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

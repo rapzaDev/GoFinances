@@ -104,25 +104,55 @@ function renderFinishButton(
     | 'Lazer'
     | 'Estudos'
     | '',
+  registerSelectedCategory: (categorySelected: string) => void,
 ) {
   if (categorySelected !== '')
     return (
-      <FinishButton>
-        <FinishText>Finalizar</FinishText>
+      <FinishButton onPress={() => registerSelectedCategory(categorySelected)}>
+        <FinishText>Selecionar</FinishText>
       </FinishButton>
     )
 
   return (
     <FakeFinishButton>
-      <FinishText>Finalizar</FinishText>
+      <FinishText>Selecionar</FinishText>
     </FakeFinishButton>
   )
 }
 
-function CategorySelect() {
+interface ICategorySelectProps {
+  changeModalState: () => void
+  registerSelectedCategory: (categorySelected: string) => void
+}
+
+function CategorySelect({
+  changeModalState,
+  registerSelectedCategory,
+}: ICategorySelectProps) {
   const [categorySelected, setCategorySelected] = useState<
     'Compras' | 'Alimentação' | 'Salário' | 'Lazer' | 'Estudos' | ''
   >('')
+
+  return (
+    <Container>
+      <Header>
+        <Title>Categoria</Title>
+        <Icon name="x" onPress={changeModalState} />
+      </Header>
+
+      <CategoriesWrapper>
+        <ListCategories>
+          {renderCategories(
+            categorySelectData,
+            categorySelected,
+            selectCategoryOnPress,
+          )}
+        </ListCategories>
+
+        {renderFinishButton(categorySelected, registerSelectedCategory)}
+      </CategoriesWrapper>
+    </Container>
+  )
 
   function selectCategoryOnPress(
     selectedCategory:
@@ -135,27 +165,6 @@ function CategorySelect() {
   ) {
     setCategorySelected(selectedCategory)
   }
-
-  return (
-    <Container>
-      <Header>
-        <Title>Categoria</Title>
-        <Icon name="x" />
-      </Header>
-
-      <CategoriesWrapper>
-        <ListCategories>
-          {renderCategories(
-            categorySelectData,
-            categorySelected,
-            selectCategoryOnPress,
-          )}
-        </ListCategories>
-
-        {renderFinishButton(categorySelected)}
-      </CategoriesWrapper>
-    </Container>
-  )
 }
 
 export default CategorySelect
