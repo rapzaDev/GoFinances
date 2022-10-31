@@ -3,6 +3,11 @@ import { categorySelectData } from '../../../utils/CategorySelectData/categorySe
 import { CategoryType } from './Category/category.component'
 
 import {
+  renderCategories,
+  renderFinishButton,
+} from './functions/categorySelect.component.functions'
+
+import {
   Container,
   Header,
   Title,
@@ -10,10 +15,6 @@ import {
   CategoriesWrapper,
   ListCategories,
 } from './categorySelect.style'
-import {
-  renderCategories,
-  renderFinishButton,
-} from './functions/categorySelect.component.functions'
 
 interface ICategorySelectProps {
   changeModalState: () => void

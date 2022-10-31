@@ -27,8 +27,6 @@ function Category({
   isSelected,
   selectCategoryOnPress,
 }: ICategoryProps) {
-  console.log(`${category}`, icon)
-
   return (
     <Container
       iconColor={icon}

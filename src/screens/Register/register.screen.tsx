@@ -1,7 +1,9 @@
 import React, { useReducer, useState } from 'react'
-import { Modal } from 'react-native'
+import { FieldValues, useForm } from 'react-hook-form'
+import { Alert, Modal } from 'react-native'
 import CategorySelect from '../../components/Form/CategorySelect/categorySelect.component'
-import Input from '../../components/Form/Input/input.component'
+// import Input from '../../components/Form/Input/input.component'
+import InputForm from '../../components/Form/InputForm/inputForm.component'
 import TransactionButtonType from '../../components/Form/TransactionTypeButton/transactionTypeButton.component'
 import {
   buttonTypeReducer,
@@ -22,11 +24,25 @@ import {
   RegisterButtonTitle,
 } from './register.style'
 
+interface IFormData {
+  name: string
+  preço: string
+  state: string
+  selectedCategoryValue: string
+}
+
 function Register() {
   const [state, dispatch] = useReducer(buttonTypeReducer, initialState)
   const [categoryModal, setCategoryModal] = useState<boolean>(false)
   const [selectedCategoryValue, setSelectedCategoryValue] =
     useState<string>('Categoria')
+
+  const { control, handleSubmit } = useForm<FieldValues, IFormData>({
+    defaultValues: {
+      name: '',
+      preço: '',
+    },
+  })
 
   return (
     <Container>
@@ -36,8 +52,8 @@ function Register() {
 
       <Form>
         <FormInputsWrapper>
-          <Input placeholder="Nome" />
-          <Input placeholder="Preço" />
+          <InputForm name="name" control={control} placeholder="Nome" />
+          <InputForm name="preço" control={control} placeholder="Preço" />
 
           <TransactionsTypesWrapper>
             <TransactionButtonType
@@ -66,7 +82,7 @@ function Register() {
           </SelectCategoryField>
         </FormInputsWrapper>
 
-        <RegisterButton>
+        <RegisterButton onPress={handleSubmit(handleRegister)}>
           <RegisterButtonTitle>Cadastrar</RegisterButtonTitle>
         </RegisterButton>
       </Form>
@@ -87,6 +103,32 @@ function Register() {
   function registerSelectedCategory(categorySelected: string) {
     setSelectedCategoryValue(categorySelected)
     changeModalState()
+  }
+
+  function handleRegister(form: FieldValues) {
+    const stateType = (): string => {
+      if (state.income) return 'Entrada'
+      else return 'Saída'
+    }
+
+    const data: IFormData = {
+      name: form.name,
+      preço: form.preço,
+      state: stateType(),
+      selectedCategoryValue,
+    }
+
+    if (
+      data.preço === '' ||
+      data.name === '' ||
+      selectedCategoryValue === 'Categoria'
+    )
+      return Alert.alert(
+        'Cadastro inválido.',
+        'Por favor, preencha todos os campos do formulário.',
+      )
+
+    console.log(data)
   }
 }
 
