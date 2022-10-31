@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
-// import Dashboard from './src/screens/Dashboard/dashboard.screen'
+import { NavigationContainer } from '@react-navigation/native'
 import { useStickyImmersiveReset } from './statusBar'
 import { ThemeProvider } from 'styled-components/native'
 import theme from './src/global/styles/theme'
@@ -14,8 +14,8 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins'
-import Register from './src/screens/Register/register.screen'
-// import CategorySelect from './src/components/Form/CategorySelect/categorySelect.component'
+
+import ScreenRoutes from './src/routes/app.routes'
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync()
@@ -62,9 +62,9 @@ export default function App() {
       <StatusBar style="light" hidden={false} />
 
       <ThemeProvider theme={theme}>
-        {/* <Dashboard /> */}
-        <Register />
-        {/* <CategorySelect /> */}
+        <NavigationContainer>
+          <ScreenRoutes />
+        </NavigationContainer>
       </ThemeProvider>
     </View>
   )
