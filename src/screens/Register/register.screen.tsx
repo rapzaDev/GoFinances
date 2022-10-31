@@ -1,14 +1,24 @@
 import React, { useReducer, useState } from 'react'
-import { FieldValues, useForm } from 'react-hook-form'
-import { Alert, Modal } from 'react-native'
+import {
+  FieldError,
+  FieldErrorsImpl,
+  FieldValues,
+  Merge,
+  useForm,
+} from 'react-hook-form'
+import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native'
+// COMPONENTES
 import CategorySelect from '../../components/Form/CategorySelect/categorySelect.component'
-// import Input from '../../components/Form/Input/input.component'
 import InputForm from '../../components/Form/InputForm/inputForm.component'
 import TransactionButtonType from '../../components/Form/TransactionTypeButton/transactionTypeButton.component'
+// REDUCER
 import {
   buttonTypeReducer,
   initialState,
 } from '../../utils/Reducer/registerReducer'
+// yup
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 import {
   Container,
@@ -28,8 +38,19 @@ interface IFormData {
   name: string
   preço: string
   state: string
-  selectedCategoryValue: string
+  categoria: string
 }
+
+const schema = yup
+  .object()
+  .shape({
+    name: yup.string().required('Nome é obrigatório'),
+    preço: yup
+      .number()
+      .typeError('Preço é obrigatório')
+      .positive('O valor não pode ser negativo'),
+  })
+  .required()
 
 function Register() {
   const [state, dispatch] = useReducer(buttonTypeReducer, initialState)
@@ -37,63 +58,91 @@ function Register() {
   const [selectedCategoryValue, setSelectedCategoryValue] =
     useState<string>('Categoria')
 
-  const { control, handleSubmit } = useForm<FieldValues, IFormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FieldValues, IFormData>({
     defaultValues: {
       name: '',
       preço: '',
     },
+    resolver: yupResolver(schema),
   })
 
+  const showErrorMessageIfExists = (
+    error: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined,
+  ) => {
+    if (error === undefined) return ''
+
+    return error.message
+  }
+
   return (
-    <Container>
-      <Header>
-        <Title>Cadastro</Title>
-      </Header>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <Container>
+        <Header>
+          <Title>Cadastro</Title>
+        </Header>
 
-      <Form>
-        <FormInputsWrapper>
-          <InputForm name="name" control={control} placeholder="Nome" />
-          <InputForm name="preço" control={control} placeholder="Preço" />
-
-          <TransactionsTypesWrapper>
-            <TransactionButtonType
-              type="Entrada"
-              active={state.income}
-              onPress={() => {
-                dispatch({
-                  type: 'INCOME',
-                })
-              }}
+        <Form>
+          <FormInputsWrapper>
+            <InputForm
+              error={showErrorMessageIfExists(errors.name)}
+              name="name"
+              control={control}
+              placeholder="Nome"
+              autoCapitalize="sentences"
+              autoCorrect={false}
             />
-            <TransactionButtonType
-              type="Saida"
-              active={state.outcome}
-              onPress={() => {
-                dispatch({
-                  type: 'OUTCOME',
-                })
-              }}
+            <InputForm
+              keyboardType="decimal-pad"
+              error={showErrorMessageIfExists(errors.preço)}
+              name="preço"
+              control={control}
+              placeholder="Preço"
             />
-          </TransactionsTypesWrapper>
 
-          <SelectCategoryField onPress={changeModalState}>
-            <CategoryText>{selectedCategoryValue}</CategoryText>
-            <Icon name="keyboard-arrow-down" />
-          </SelectCategoryField>
-        </FormInputsWrapper>
+            <TransactionsTypesWrapper>
+              <TransactionButtonType
+                type="Entrada"
+                active={state.income}
+                onPress={() => {
+                  dispatch({
+                    type: 'INCOME',
+                  })
+                }}
+              />
+              <TransactionButtonType
+                type="Saida"
+                active={state.outcome}
+                onPress={() => {
+                  dispatch({
+                    type: 'OUTCOME',
+                  })
+                }}
+              />
+            </TransactionsTypesWrapper>
 
-        <RegisterButton onPress={handleSubmit(handleRegister)}>
-          <RegisterButtonTitle>Cadastrar</RegisterButtonTitle>
-        </RegisterButton>
-      </Form>
+            <SelectCategoryField onPress={changeModalState}>
+              <CategoryText>{selectedCategoryValue}</CategoryText>
+              <Icon name="keyboard-arrow-down" />
+            </SelectCategoryField>
+          </FormInputsWrapper>
 
-      <Modal visible={categoryModal}>
-        <CategorySelect
-          changeModalState={changeModalState}
-          registerSelectedCategory={registerSelectedCategory}
-        />
-      </Modal>
-    </Container>
+          <RegisterButton onPress={handleSubmit(handleRegister)}>
+            <RegisterButtonTitle>Cadastrar</RegisterButtonTitle>
+          </RegisterButton>
+        </Form>
+
+        <Modal visible={categoryModal}>
+          <CategorySelect
+            changeModalState={changeModalState}
+            registerSelectedCategory={registerSelectedCategory}
+          />
+        </Modal>
+      </Container>
+    </TouchableWithoutFeedback>
   )
 
   function changeModalState() {
@@ -106,27 +155,27 @@ function Register() {
   }
 
   function handleRegister(form: FieldValues) {
-    const stateType = (): string => {
-      if (state.income) return 'Entrada'
-      else return 'Saída'
-    }
+    if (form.name === '')
+      return Alert.alert('Cadastro inválido.', 'Informe o nome da transação.')
+
+    if (form.preço === '')
+      return Alert.alert(
+        'Cadastro inválido.',
+        'Informe o valor do preço da transação.',
+      )
+
+    if (selectedCategoryValue === 'Categoria')
+      return Alert.alert(
+        'Cadastro inválido.',
+        'Selecione uma categoria para a transação.',
+      )
 
     const data: IFormData = {
       name: form.name,
       preço: form.preço,
-      state: stateType(),
-      selectedCategoryValue,
+      state: state.income ? 'Entrada' : 'Saída',
+      categoria: selectedCategoryValue,
     }
-
-    if (
-      data.preço === '' ||
-      data.name === '' ||
-      selectedCategoryValue === 'Categoria'
-    )
-      return Alert.alert(
-        'Cadastro inválido.',
-        'Por favor, preencha todos os campos do formulário.',
-      )
 
     console.log(data)
   }

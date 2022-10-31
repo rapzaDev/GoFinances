@@ -1,14 +1,25 @@
 import { TextInputProps } from 'react-native'
-import { Control, Controller } from 'react-hook-form'
+import {
+  Control,
+  Controller,
+  FieldError,
+  FieldErrorsImpl,
+  Merge,
+} from 'react-hook-form'
 import Input from '../Input/input.component'
-import { Container } from './inputForm.style'
+import { Container, Error } from './inputForm.style'
 
 interface IInputFormProps extends TextInputProps {
   control: Control
   name: string
+  error:
+    | FieldError
+    | Merge<FieldError, FieldErrorsImpl<any>>
+    | undefined
+    | string
 }
 
-function InputForm({ control, name, ...rest }: IInputFormProps) {
+function InputForm({ control, name, error, ...rest }: IInputFormProps) {
   return (
     <Container>
       <Controller
@@ -18,6 +29,7 @@ function InputForm({ control, name, ...rest }: IInputFormProps) {
         )}
         name={name}
       />
+      {error && <Error>{error}</Error>}
     </Container>
   )
 }
