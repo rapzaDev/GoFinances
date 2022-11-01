@@ -36,6 +36,7 @@ import {
   RegisterButton,
   RegisterButtonTitle,
 } from './register.style'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface IFormData {
   id: string
@@ -162,7 +163,7 @@ function Register() {
     changeModalState()
   }
 
-  function handleRegister(form: FieldValues) {
+  async function handleRegister(form: FieldValues) {
     if (form.name === '')
       return Alert.alert('Cadastro inválido.', 'Informe o nome da transação.')
 
@@ -178,7 +179,7 @@ function Register() {
         'Selecione uma categoria para a transação.',
       )
 
-    const data: IFormData = {
+    const newTransaction: IFormData = {
       id: String(uuid.v4()),
       name: form.name,
       preço: form.preço,
@@ -187,12 +188,25 @@ function Register() {
       date: new Date(),
     }
 
-    console.log(data)
+    // salvando no async storage
+    try {
+      const dataKey = '@gofinances:transactions'
 
-    reset()
-    setSelectedCategoryValue('Categoria')
+      const storageData = await AsyncStorage.getItem(dataKey)
+      const currentStorageData = storageData ? JSON.parse(storageData) : []
 
-    navigate('Listagem')
+      const dataFormatted = [...currentStorageData, newTransaction]
+
+      await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted))
+
+      reset()
+      setSelectedCategoryValue('Categoria')
+
+      navigate('Listagem')
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Não foi possivel cadastrar')
+    }
   }
 }
 
