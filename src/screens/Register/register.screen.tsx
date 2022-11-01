@@ -1,4 +1,7 @@
 import React, { useReducer, useState } from 'react'
+import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native'
+import uuid from 'react-native-uuid'
+// HOOKS
 import {
   FieldError,
   FieldErrorsImpl,
@@ -6,7 +9,7 @@ import {
   Merge,
   useForm,
 } from 'react-hook-form'
-import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 // COMPONENTES
 import CategorySelect from '../../components/Form/CategorySelect/categorySelect.component'
 import InputForm from '../../components/Form/InputForm/inputForm.component'
@@ -35,10 +38,12 @@ import {
 } from './register.style'
 
 interface IFormData {
+  id: string
   name: string
   preço: string
   state: string
   categoria: string
+  date: Date
 }
 
 const schema = yup
@@ -58,9 +63,12 @@ function Register() {
   const [selectedCategoryValue, setSelectedCategoryValue] =
     useState<string>('Categoria')
 
+  const { navigate } = useNavigation<any>()
+
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FieldValues, IFormData>({
     defaultValues: {
@@ -171,13 +179,20 @@ function Register() {
       )
 
     const data: IFormData = {
+      id: String(uuid.v4()),
       name: form.name,
       preço: form.preço,
       state: state.income ? 'Entrada' : 'Saída',
       categoria: selectedCategoryValue,
+      date: new Date(),
     }
 
     console.log(data)
+
+    reset()
+    setSelectedCategoryValue('Categoria')
+
+    navigate('Listagem')
   }
 }
 
