@@ -38,13 +38,13 @@ import {
 } from './register.style'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-interface IFormData {
+export interface IFormData {
   id: string
-  name: string
-  preço: string
-  state: string
-  categoria: string
-  date: Date
+  title: string
+  amount: string
+  type: string
+  category: string
+  date: any
 }
 
 const schema = yup
@@ -181,10 +181,10 @@ function Register() {
 
     const newTransaction: IFormData = {
       id: String(uuid.v4()),
-      name: form.name,
-      preço: form.preço,
-      state: state.income ? 'Entrada' : 'Saída',
-      categoria: selectedCategoryValue,
+      title: form.name,
+      amount: form.preço,
+      type: state.income ? 'entrada' : 'saida',
+      category: selectedCategoryValue,
       date: new Date(),
     }
 
@@ -193,7 +193,11 @@ function Register() {
       const dataKey = '@gofinances:transactions'
 
       const storageData = await AsyncStorage.getItem(dataKey)
-      const currentStorageData = storageData ? JSON.parse(storageData) : []
+      let currentStorageData: IFormData[] = storageData
+        ? JSON.parse(storageData)
+        : []
+
+      currentStorageData = Object.values(currentStorageData)
 
       const dataFormatted = [...currentStorageData, newTransaction]
 

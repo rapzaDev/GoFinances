@@ -14,8 +14,8 @@ export type DataTransactionCard = {
   type: 'entrada' | 'saida'
   title: string
   amount: string
-  category: 'Programacao' | 'Casa' | 'Gatos' | 'Vendas' | 'Despesas'
-  date: string
+  category: 'Compras' | 'Alimentação' | 'Salário' | 'Lazer' | 'Estudos'
+  date: Date
 }
 
 interface ITransactionCard {
@@ -23,11 +23,11 @@ interface ITransactionCard {
 }
 
 const icon = {
-  Programacao: 'monitor',
-  Casa: 'home',
-  Gatos: 'github',
-  Vendas: 'dollar-sign',
-  Despesas: 'dollar-sign',
+  Compras: 'shopping-bag',
+  Alimentação: 'coffee',
+  Salário: 'dollar-sign',
+  Lazer: 'heart',
+  Estudos: 'book',
 }
 
 function TransactionCard({ data }: ITransactionCard) {
