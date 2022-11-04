@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import HighlightCard from '../../components/HighlightCard/highlightCard.component'
 import TransactionCard, {
   DataTransactionCard,
 } from '../../components/TransactionCard/transactionCard.component'
 import { IFormData } from '../Register/register.screen'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useFocusEffect } from '@react-navigation/native'
 
 import {
   Container,
@@ -78,9 +79,11 @@ function Dashboard() {
     setData(transactionDataFormatted)
   }
 
-  useEffect(() => {
-    loadTransactionsData()
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      loadTransactionsData()
+    }, []),
+  )
 
   return (
     <Container>

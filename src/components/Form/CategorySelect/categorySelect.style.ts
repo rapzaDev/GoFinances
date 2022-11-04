@@ -47,7 +47,7 @@ export const Icon = styled(Feather)`
 
 export const CategoriesWrapper = styled.View`
   flex: 1;
-  padding: 48px 24px 0;
+  padding: 38px 24px 24px;
 `
 
 export const ListCategories = styled.ScrollView``
