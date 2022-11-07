@@ -21,6 +21,7 @@ import {
   TransactionsWrapper,
   TransactionsTitle,
   ListTransactions,
+  LoadingScreen,
 } from './dashboard.style'
 
 import { getBottomSpace } from 'react-native-iphone-x-helper'
@@ -49,7 +50,85 @@ function formatDate(date: string): string {
 }
 
 function Dashboard() {
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [data, setData] = useState<IFormData[]>([])
+  const [income, setIncome] = useState<number>(0)
+  const [outcome, setOutcome] = useState<number>(0)
+  const [total, setTotal] = useState<number>(0)
+
+  useFocusEffect(
+    useCallback(() => {
+      loadTransactionsData()
+    }, []),
+  )
+
+  function renderContent() {
+    if (isLoading) return <LoadingScreen size="large" />
+    else
+      return (
+        <>
+          <Header>
+            <UserWrapper>
+              <UserInfo>
+                <Photo
+                  source={{
+                    uri: 'https://avatars.githubusercontent.com/u/68792232?v=4',
+                  }}
+                />
+
+                <User>
+                  <UserHello>Olá,</UserHello>
+                  <UserName>Rafael</UserName>
+                </User>
+              </UserInfo>
+
+              <Icon name="power" />
+            </UserWrapper>
+          </Header>
+
+          <CardsList>
+            <HighlightCard
+              type="entradas"
+              title="Entradas"
+              amount={`R$ ${income},00`}
+              lastTransaction="Última entrada dia 5 de Outubro."
+            />
+            <HighlightCard
+              type="saidas"
+              title="Saídas"
+              amount={`R$ ${outcome},00`}
+              lastTransaction="Última saida dia 19 de Outubro."
+            />
+            <HighlightCard
+              type="total"
+              title="Total"
+              amount={`R$ ${total},00`}
+              lastTransaction="Dia 25 de Outubro."
+            />
+          </CardsList>
+
+          <TransactionsWrapper>
+            <TransactionsTitle>Listagem</TransactionsTitle>
+
+            {data.length > 0 && (
+              <ListTransactions
+                data={data}
+                keyExtractor={(item: DataTransactionCard) => item.id}
+                renderItem={({ item }: { item: DataTransactionCard }) => (
+                  <TransactionCard data={item} />
+                )}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                  paddingBottom: getBottomSpace(),
+                }}
+              />
+            )}
+          </TransactionsWrapper>
+        </>
+      )
+  }
+
+  return <Container>{renderContent()}</Container>
 
   async function loadTransactionsData() {
     const dataKey = '@gofinances:transactions'
@@ -57,12 +136,14 @@ function Dashboard() {
     const asyncData = await AsyncStorage.getItem(dataKey)
     const transactionsData: IFormData[] = asyncData ? JSON.parse(asyncData) : []
 
+    let incomeTotal = 0
+    let outcomeTotal = 0
+
     const transactionDataFormatted: IFormData[] =
       transactionsData.map<IFormData>((transaction: IFormData) => {
-        const amount = Number(transaction.amount).toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        })
+        if (transaction.type === 'entrada')
+          incomeTotal += Number(transaction.amount)
+        else outcomeTotal += Number(transaction.amount)
 
         const date = formatDate(transaction.date)
 
@@ -71,81 +152,20 @@ function Dashboard() {
           title: transaction.title,
           type: transaction.type,
           category: transaction.category,
-          amount: `R$ ${amount},00`,
+          amount: `R$ ${transaction.amount},00`,
           date,
         }
       })
 
+    const total = incomeTotal - outcomeTotal
+
+    setIncome(incomeTotal)
+    setOutcome(outcomeTotal)
+    setTotal(total)
+
     setData(transactionDataFormatted)
+    setIsLoading(false)
   }
-
-  useFocusEffect(
-    useCallback(() => {
-      loadTransactionsData()
-    }, []),
-  )
-
-  return (
-    <Container>
-      <Header>
-        <UserWrapper>
-          <UserInfo>
-            <Photo
-              source={{
-                uri: 'https://avatars.githubusercontent.com/u/68792232?v=4',
-              }}
-            />
-
-            <User>
-              <UserHello>Olá,</UserHello>
-              <UserName>Rafael</UserName>
-            </User>
-          </UserInfo>
-
-          <Icon name="power" />
-        </UserWrapper>
-      </Header>
-
-      <CardsList>
-        <HighlightCard
-          type="entradas"
-          title="Entradas"
-          amount="R$ 17.400,00"
-          lastTransaction="Última entrada dia 5 de Outubro."
-        />
-        <HighlightCard
-          type="saidas"
-          title="Saídas"
-          amount="R$ 1.300,00"
-          lastTransaction="Última saida dia 19 de Outubro."
-        />
-        <HighlightCard
-          type="total"
-          title="Total"
-          amount="R$ 16.100,00"
-          lastTransaction="Dia 25 de Outubro."
-        />
-      </CardsList>
-
-      <TransactionsWrapper>
-        <TransactionsTitle>Listagem</TransactionsTitle>
-
-        {data.length > 0 && (
-          <ListTransactions
-            data={data}
-            keyExtractor={(item: DataTransactionCard) => item.id}
-            renderItem={({ item }: { item: DataTransactionCard }) => (
-              <TransactionCard data={item} />
-            )}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-              paddingBottom: getBottomSpace(),
-            }}
-          />
-        )}
-      </TransactionsWrapper>
-    </Container>
-  )
 }
 
 export default Dashboard

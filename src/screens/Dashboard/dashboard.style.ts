@@ -3,6 +3,7 @@ import { Feather } from '@expo/vector-icons'
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 import { DataTransactionCard } from '../../components/TransactionCard/transactionCard.component'
+import { ActivityIndicator } from 'react-native'
 
 export const Container = styled.View`
   flex: 1;
@@ -102,3 +103,9 @@ export const TransactionsTitle = styled.Text`
 `
 
 export const ListTransactions = styled.FlatList<DataTransactionCard>``
+
+export const LoadingScreen = styled(ActivityIndicator)`
+  flex: 1;
+
+  background-color: ${({ theme }) => theme.colors.primary};
+`
