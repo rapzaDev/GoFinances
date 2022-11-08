@@ -91,19 +91,19 @@ function Dashboard() {
               type="entradas"
               title="Entradas"
               amount={`R$ ${income},00`}
-              lastTransaction="Última entrada dia 5 de Outubro."
+              lastTransaction={`${getLastIncomeTransactionDate(data)}`}
             />
             <HighlightCard
               type="saidas"
               title="Saídas"
               amount={`R$ ${outcome},00`}
-              lastTransaction="Última saida dia 19 de Outubro."
+              lastTransaction={`${getLastOutcomeTransactionDate(data)}`}
             />
             <HighlightCard
               type="total"
               title="Total"
               amount={`R$ ${total},00`}
-              lastTransaction="Dia 25 de Outubro."
+              lastTransaction={`${getLastTransactionDate(data)}`}
             />
           </CardsList>
 
@@ -165,6 +165,212 @@ function Dashboard() {
 
     setData(transactionDataFormatted)
     setIsLoading(false)
+  }
+
+  function getLastIncomeTransactionDate(transactions: IFormData[]): string {
+    const incomeTransactions = transactions.filter(
+      (it) => it.type === 'entrada',
+    )
+
+    const index =
+      incomeTransactions.length === 0 ? 0 : incomeTransactions.length - 1
+
+    const lastTransactionDate = incomeTransactions[index].date as string
+
+    const date = lastTransactionDate.split('/')
+
+    const day = date[0]
+
+    let month: String = ''
+
+    switch (Number(date[1])) {
+      case 1:
+        month = 'Janeiro'
+        break
+
+      case 2:
+        month = 'Fevereiro'
+        break
+
+      case 3:
+        month = 'Março'
+        break
+
+      case 4:
+        month = 'Abril'
+        break
+
+      case 5:
+        month = 'Maio'
+        break
+
+      case 6:
+        month = 'Junho'
+        break
+
+      case 7:
+        month = 'Julho'
+        break
+
+      case 8:
+        month = 'Agosto'
+        break
+
+      case 9:
+        month = 'Setembro'
+        break
+
+      case 10:
+        month = 'Outubro'
+        break
+
+      case 11:
+        month = 'Novembro'
+        break
+
+      case 12:
+        month = 'Dezembro'
+        break
+      default:
+        break
+    }
+
+    return `Última entrada dia ${day} de ${month}.`
+  }
+
+  function getLastOutcomeTransactionDate(transactions: IFormData[]): string {
+    const outcomeTransactions = transactions.filter((it) => it.type === 'saida')
+
+    const index =
+      outcomeTransactions.length === 0 ? 0 : outcomeTransactions.length - 1
+
+    const lastTransactionDate = outcomeTransactions[index].date as string
+
+    const date = lastTransactionDate.split('/')
+
+    const day = date[0]
+
+    let month: String = ''
+
+    switch (Number(date[1])) {
+      case 1:
+        month = 'Janeiro'
+        break
+
+      case 2:
+        month = 'Fevereiro'
+        break
+
+      case 3:
+        month = 'Março'
+        break
+
+      case 4:
+        month = 'Abril'
+        break
+
+      case 5:
+        month = 'Maio'
+        break
+
+      case 6:
+        month = 'Junho'
+        break
+
+      case 7:
+        month = 'Julho'
+        break
+
+      case 8:
+        month = 'Agosto'
+        break
+
+      case 9:
+        month = 'Setembro'
+        break
+
+      case 10:
+        month = 'Outubro'
+        break
+
+      case 11:
+        month = 'Novembro'
+        break
+
+      case 12:
+        month = 'Dezembro'
+        break
+      default:
+        break
+    }
+
+    return `Última saida dia ${day} de ${month}.`
+  }
+
+  function getLastTransactionDate(transactions: IFormData[]): string {
+    const index = transactions.length === 0 ? 0 : transactions.length - 1
+
+    const lastTransactionDate = transactions[index].date as string
+
+    const date = lastTransactionDate.split('/')
+
+    const day = date[0]
+
+    let month: String = ''
+
+    switch (Number(date[1])) {
+      case 1:
+        month = 'Janeiro'
+        break
+
+      case 2:
+        month = 'Fevereiro'
+        break
+
+      case 3:
+        month = 'Março'
+        break
+
+      case 4:
+        month = 'Abril'
+        break
+
+      case 5:
+        month = 'Maio'
+        break
+
+      case 6:
+        month = 'Junho'
+        break
+
+      case 7:
+        month = 'Julho'
+        break
+
+      case 8:
+        month = 'Agosto'
+        break
+
+      case 9:
+        month = 'Setembro'
+        break
+
+      case 10:
+        month = 'Outubro'
+        break
+
+      case 11:
+        month = 'Novembro'
+        break
+
+      case 12:
+        month = 'Dezembro'
+        break
+      default:
+        break
+    }
+
+    return `Última transação dia ${day} de ${month}.`
   }
 }
 
